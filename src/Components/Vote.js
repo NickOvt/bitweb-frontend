@@ -3,7 +3,8 @@ const axios = require('axios');
 
 function Vote() {
   // Error or other messages state
-  const [msg, setMsg] = useState();
+  // msg {msg: 'Some message', isDanger: true || false}
+  const [msg, setMsg] = useState(null);
 
   const [currentVote, setCurrentVote] = useState({ vote: 'cat' });
 
@@ -14,10 +15,10 @@ function Vote() {
         choice: vote,
       })
       .then((res) => {
-        setMsg({ msg: res });
+        setMsg({ msg: res, isDanger: false });
       })
       .catch((err) => {
-        setMsg({ msg: 'There was an error' });
+        setMsg({ msg: 'There was an error', isDanger: true });
       });
   };
   const onChange = (e) => {
@@ -33,7 +34,11 @@ function Vote() {
   return (
     <>
       {msg && (
-        <div className={`alert alert-dismissible`}>
+        <div
+          className={`alert alert-dismissible alert-${
+            msg.isDanger ? 'danger' : 'success'
+          }`}
+        >
           <button
             type="button"
             className="btn-close"
