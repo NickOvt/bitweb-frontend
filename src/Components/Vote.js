@@ -8,19 +8,19 @@ function Vote() {
 
   const [currentVote, setCurrentVote] = useState({ vote: 'cat' });
 
-  const sendVote = (currentVote) => {
+  const sendVote = async (currentVote) => {
     const { vote } = currentVote;
-    axios
-      .post('http://bitwebtest_vote-rest-api_1/api/vote', {
+
+    try {
+      const res = await axios.post('http://localhost:8080/api/vote', {
         choice: vote,
-      })
-      .then((res) => {
-        setMsg({ msg: res, isDanger: false });
-      })
-      .catch((err) => {
-        setMsg({ msg: 'There was an error', isDanger: true });
       });
+      setMsg({ msg: res.data.msg, isDanger: false });
+    } catch (err) {
+      setMsg({ msg: 'There was an error', isDanger: true });
+    }
   };
+
   const onChange = (e) => {
     setCurrentVote({
       vote: e.currentTarget.value,
@@ -39,15 +39,16 @@ function Vote() {
             msg.isDanger ? 'danger' : 'success'
           }`}
         >
+          <span>{msg.msg}</span>
           <button
             type="button"
             className="btn-close"
             onClick={clearMsgs}
           ></button>
-          <p>{msg.msg}</p>
         </div>
       )}
-      <p>Vote here</p>
+      <h1 className="display-6">Who do you like more, Cats or Dogs?</h1>
+      <p>Vote here &darr;</p>
       <select
         className="form-select"
         id="exampleSelect1"
@@ -59,7 +60,7 @@ function Vote() {
       </select>
       <button
         type="submit"
-        className="btn btn-primary ms-2"
+        className="btn btn-primary"
         onClick={() => sendVote(currentVote)}
       >
         Submit

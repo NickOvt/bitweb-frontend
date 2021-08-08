@@ -24,3 +24,14 @@ COPY --from=builder /app/nginx.conf /etc/nginx/conf.d/default.conf
 # Containers run nginx with global directives and daemon off
 EXPOSE 3000
 CMD ["nginx", "-g", "daemon off;"]
+
+##FROM node:14
+
+##WORKDIR /usr/src/app
+
+##COPY . .
+
+##RUN npm install && npm run build
+
+##EXPOSE 3000
+##CMD ["node", "index.js"]
