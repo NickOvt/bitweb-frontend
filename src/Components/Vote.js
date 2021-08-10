@@ -4,13 +4,14 @@ const axios = require('axios');
 function Vote() {
   // Error or other messages state
   // msg {msg: 'Some message', isDanger: true || false}
-  const [msg, setMsg] = useState(null);
+  const [msg, setMsg] = useState('');
 
   const [currentVote, setCurrentVote] = useState({ vote: 'cat' });
 
   const sendVote = async (currentVote) => {
     const { vote } = currentVote;
 
+    // Send data to vote api container and retrieve a response
     try {
       const res = await axios.post('http://localhost:8080/api/vote', {
         choice: vote,
@@ -28,18 +29,27 @@ function Vote() {
   };
 
   const clearMsgs = () => {
-    setMsg(null);
+    setMsg('');
+  };
+
+  const errorMessage = {
+    transition: '0.25s ease-in-out',
   };
 
   return (
     <>
-      {msg && (
+      {(msg == '' || msg != '') && (
         <div
           className={`alert alert-dismissible alert-${
             msg.isDanger ? 'danger' : 'success'
           }`}
+          style={
+            msg == ''
+              ? { ...errorMessage, opacity: 0 }
+              : { ...errorMessage, opacity: 1 }
+          }
         >
-          <span>{msg.msg}</span>
+          {msg.msg ? <span>{msg.msg}</span> : <span>&nbsp;</span>}
           <button
             type="button"
             className="btn-close"
