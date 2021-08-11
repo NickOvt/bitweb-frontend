@@ -14,6 +14,7 @@ module.exports = {
     proxy: {
       '/api': 'http://localhost:3000',
     },
+    port: 9000,
   },
   module: {
     rules: [
