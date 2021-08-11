@@ -25,13 +25,17 @@ COPY --from=builder /app/nginx.conf /etc/nginx/conf.d/default.conf
 EXPOSE 3000
 CMD ["nginx", "-g", "daemon off;"]
 
-##FROM node:14
 
-##WORKDIR /usr/src/app
+# Single-stage
+# Use serve React static files with Express instead of Nginx
 
-##COPY . .
+#FROM node:14
 
-##RUN npm install && npm run build
+#WORKDIR /usr/src/app
 
-##EXPOSE 3000
-##CMD ["node", "index.js"]
+#COPY . .
+
+#RUN npm install && npm run build
+
+#EXPOSE 3000
+#CMD ["node", "index.js"]
